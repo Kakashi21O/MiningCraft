@@ -41,6 +41,9 @@ Repository = "https://github.com/Kakashi21O/MiningCraft"
 [tool.hatch.build.targets.wheel]
 packages = ["src/miningcraft"]
 
+[tool.hatch.metadata]
+allow-direct-references = true
+
 [tool.ruff]
 line-length = 100
 target-version = "py312"
