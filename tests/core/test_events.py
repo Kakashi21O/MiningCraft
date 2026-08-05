@@ -2,8 +2,6 @@
 
 from threading import Thread
 
-import pytest
-
 from miningcraft.core.events import EventBus
 
 
@@ -42,7 +40,7 @@ def test_publish_unknown_event_does_nothing() -> None:
     bus.publish("OnUnknown", value=1)
 
 
-def test_handler_error_does_not_stop_other_handlers(mocker: pytest.MockFixture) -> None:
+def test_handler_error_does_not_stop_other_handlers(mocker) -> None:
     mocker.patch("miningcraft.core.events.logger")
     bus = EventBus()
     calls: list[int] = []
@@ -114,12 +112,9 @@ def test_thread_safe_subscribe() -> None:
     bus = EventBus()
     calls: list[int] = []
 
-    def handler(**kw: object) -> None:
-        calls.append(1)
-
     def worker() -> None:
         for _ in range(100):
-            bus.subscribe("OnX", handler)
+            bus.subscribe("OnX", lambda **kw: calls.append(1))
 
     threads = [Thread(target=worker) for _ in range(4)]
     for thread in threads:

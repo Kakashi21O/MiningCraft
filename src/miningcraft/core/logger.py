@@ -5,6 +5,8 @@ obtain per-module loggers with ``get_logger(__name__)``. ``print()`` is never
 used in production code — all output flows through these loggers.
 """
 
+from typing import cast
+
 import structlog
 from structlog.typing import FilteringBoundLogger, Processor
 
@@ -34,4 +36,4 @@ def configure_logging(level: str, fmt: str) -> None:
 
 def get_logger(name: str) -> FilteringBoundLogger:
     """Return a bound logger for a module, typically ``__name__``."""
-    return structlog.get_logger(name)
+    return cast(FilteringBoundLogger, structlog.get_logger(name))

@@ -2,8 +2,6 @@
 
 import asyncio
 
-import pytest
-
 from miningcraft.core.scheduler import TickScheduler
 
 
@@ -64,7 +62,7 @@ async def test_unregister_removes_handler() -> None:
     assert calls == []
 
 
-async def test_slow_handler_logs_warning(mocker: pytest.MockFixture) -> None:
+async def test_slow_handler_logs_warning(mocker) -> None:
     mock_logger = mocker.patch("miningcraft.core.scheduler.logger")
     scheduler = TickScheduler(50)
 
@@ -78,7 +76,7 @@ async def test_slow_handler_logs_warning(mocker: pytest.MockFixture) -> None:
     assert mock_logger.warning.call_args_list
 
 
-async def test_handler_exception_does_not_stop_loop(mocker: pytest.MockFixture) -> None:
+async def test_handler_exception_does_not_stop_loop(mocker) -> None:
     mocker.patch("miningcraft.core.scheduler.logger")
     scheduler = TickScheduler(50)
     calls: list[int] = []

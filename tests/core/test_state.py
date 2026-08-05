@@ -30,7 +30,7 @@ def test_reset_returns_to_idle() -> None:
     assert manager.current is BotState.IDLE
 
 
-def test_every_transition_is_logged(mocker: pytest.MockFixture) -> None:
+def test_every_transition_is_logged(mocker) -> None:
     mock_logger = mocker.patch("miningcraft.core.state.logger")
     manager = StateManager()
     manager.transition(BotState.CONNECTING)
