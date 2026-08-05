@@ -6,7 +6,7 @@ used in production code — all output flows through these loggers.
 """
 
 import structlog
-from structlog.typing import BoundLogger, Processor
+from structlog.typing import FilteringBoundLogger, Processor
 
 _PROCESSORS: list[Processor] = [
     structlog.contextvars.merge_contextvars,
@@ -32,6 +32,6 @@ def configure_logging(level: str, fmt: str) -> None:
     )
 
 
-def get_logger(name: str) -> BoundLogger:
+def get_logger(name: str) -> FilteringBoundLogger:
     """Return a bound logger for a module, typically ``__name__``."""
     return structlog.get_logger(name)
