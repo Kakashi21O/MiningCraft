@@ -106,6 +106,23 @@ class MinecraftConnection:
         await self._stop_keepalive()
         await self._teardown(reason="disconnect")
 
+    async def reconnect(self) -> bool:
+        """Reconnect with exponential backoff, up to ``max_retries`` attempts."""
+        if not self._host:
+            logger.error("reconnect_failed", reason="never_connected")
+            return False
+        for attempt in range(1, self._max_retries + 1):
+            logger.info("reconnect_attempt", attempt=attempt, max_retries=self._max_retries)
+            await self.disconnect()
+            if await self.connect(self._host, self._port, self._username):
+                return True
+            if attempt < self._max_retries:
+                delay = self._backoff_base * (2 ** (attempt - 1))
+                logger.debug("reconnect_backoff", attempt=attempt, delay=delay)
+                await asyncio.sleep(delay)
+        logger.error("reconnect_failed", reason="retries_exhausted")
+        return False
+
     async def _keepalive_loop(self) -> None:
         """Monitor server keepalives and tear down a stale connection.
 
