@@ -38,9 +38,12 @@ Current focus
 
 ## Project Status
 
-Planning and early development
+Released
 
-The goal right now is to build a strong foundation before adding more features
+* v0.1.0 — repository foundation: Python tooling, CI, documentation
+* v0.2.0 — protocol layer: connect, keepalive, packet handling, disconnect, reconnect
+
+The core engine (events, scheduler, config, logging) is the next milestone. The goal remains to build a strong foundation before adding more features.
 
 ## Contributing
 
