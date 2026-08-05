@@ -5,7 +5,14 @@ runtime. Parsing and schema validation happen in :func:`load_config`, which
 fails fast on bad YAML or a bad schema.
 """
 
-from pydantic import BaseModel, ConfigDict, Field
+from pathlib import Path
+
+import yaml
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
+
+
+class ConfigError(Exception):
+    """Raised when configuration cannot be loaded or validated."""
 
 
 class ServerConfig(BaseModel):
@@ -73,3 +80,22 @@ class AppConfig(BaseModel):
     mining: MiningConfig
     safety: SafetyConfig
     logging: LoggingConfig
+
+
+def load_config(path: Path) -> AppConfig:
+    """Load and validate a YAML config file, failing fast on any problem.
+
+    Raises :class:`ConfigError` for a missing file, invalid YAML, or a schema
+    violation. Never silently falls back to defaults.
+    """
+    try:
+        with path.open("r", encoding="utf-8") as file:
+            raw = yaml.safe_load(file)
+    except FileNotFoundError as exc:
+        raise ConfigError(f"config file not found: {path}") from exc
+    except yaml.YAMLError as exc:
+        raise ConfigError(f"invalid YAML in {path}: {exc}") from exc
+    try:
+        return AppConfig.model_validate(raw or {})
+    except ValidationError as exc:
+        raise ConfigError(f"invalid config schema in {path}: {exc}") from exc
