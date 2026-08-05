@@ -7,6 +7,7 @@ that takes longer than one tick window is reported via a warning log.
 
 import asyncio
 import contextlib
+import time
 from collections.abc import Awaitable, Callable
 
 import structlog
@@ -63,14 +64,22 @@ class TickScheduler:
 
     async def _tick_loop(self) -> None:
         logger.info("scheduler_started", tick_rate=self._tick_rate, interval=self._interval)
-        while self._running:
-            await self._run_tick()
-            await asyncio.sleep(self._interval)
+        try:
+            while self._running:
+                await self._run_tick()
+                await asyncio.sleep(self._interval)
+        except asyncio.CancelledError:
+            logger.info("scheduler_stopped_gracefully")
+            raise
 
     async def _run_tick(self) -> None:
         for handler in list(self._handlers):
             name = getattr(handler, "__name__", repr(handler))
+            started = time.perf_counter()
             try:
                 await handler()
             except Exception:
                 logger.exception("tick_handler_error", handler=name)
+            elapsed = time.perf_counter() - started
+            if elapsed > self._interval:
+                logger.warning("tick_handler_slow", handler=name, elapsed=elapsed)
