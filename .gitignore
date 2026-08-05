@@ -50,3 +50,7 @@ Thumbs.db
 
 # AI context working files (local only)
 context/
+
+# AI agent docs (local only, not pushed to GitHub)
+CHANGELOG.md
+CLAUDE.md
