@@ -5,10 +5,10 @@
 server:
   host: "Atharva200509.aternos.me"
   port: 11295
-  version: "1.20.1"
+  version: "1.18.1"
 
 bot:
-  username: "Nova"
+  username: "Choco"
 
 engine:
   tick_rate: 20
