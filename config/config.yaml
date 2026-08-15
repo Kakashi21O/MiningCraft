@@ -3,12 +3,12 @@
 # Never store secrets in this file; use environment variables instead.
 
 server:
-  host: "localhost"
-  port: 25565
+  host: "Atharva200509.aternos.me"
+  port: 11295
   version: "1.20.1"
 
 bot:
-  username: "MiningBot"
+  username: "Nova"
 
 engine:
   tick_rate: 20
