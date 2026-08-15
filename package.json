@@ -1,0 +1,29 @@
+{
+  "name": "miningcraft",
+  "version": "1.0.0",
+  "description": "A Python project for Minecraft automation",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "bot": "node scripts/connect_bot.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kakashi21O/MiningCraft.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Kakashi21O/MiningCraft/issues"
+  },
+  "homepage": "https://github.com/Kakashi21O/MiningCraft#readme",
+  "dependencies": {
+    "js-yaml": "^5.3.0",
+    "mineflayer": "^4.37.1"
+  }
+}
