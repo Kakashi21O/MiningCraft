@@ -68,8 +68,6 @@ class InventoryState:
         """Check if all main inventory and hotbar slots (default 36) are occupied."""
         # Non-empty items in main inventory range (slots 9 to 44 in player window)
         occupied = sum(
-            1
-            for slot_id, slot in self.slots.items()
-            if 9 <= slot_id <= 44 and not slot.is_empty
+            1 for slot_id, slot in self.slots.items() if 9 <= slot_id <= 44 and not slot.is_empty
         )
         return occupied >= total_slots

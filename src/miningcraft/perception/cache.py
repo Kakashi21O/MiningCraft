@@ -53,7 +53,7 @@ class PerceptionManager:
             self._bus = None
             logger.info("PerceptionManager detached from EventBus")
 
-    def _on_player_position(self, event_type: str, **kwargs: Any) -> None:
+    def _on_player_position(self, **kwargs: Any) -> None:
         """Handle incoming player position and look updates."""
         x = kwargs.get("x")
         y = kwargs.get("y")
@@ -68,7 +68,7 @@ class PerceptionManager:
                 on_ground=bool(kwargs["on_ground"]) if "on_ground" in kwargs else None,
             )
 
-    def _on_block_change(self, event_type: str, **kwargs: Any) -> None:
+    def _on_block_change(self, **kwargs: Any) -> None:
         """Handle incoming discrete block state modifications."""
         x = kwargs.get("x")
         y = kwargs.get("y")
@@ -78,7 +78,7 @@ class PerceptionManager:
             pos = BlockPos(int(x), int(y), int(z))
             self.world.set_block(pos, int(block_id))
 
-    def _on_entity_spawn(self, event_type: str, **kwargs: Any) -> None:
+    def _on_entity_spawn(self, **kwargs: Any) -> None:
         """Handle newly spawned entities in the world."""
         entity_id = kwargs.get("entity_id")
         entity_type = kwargs.get("entity_type", "minecraft:unknown")
@@ -95,7 +95,7 @@ class PerceptionManager:
             )
             self.entities.add_entity(entity)
 
-    def _on_entity_despawn(self, event_type: str, **kwargs: Any) -> None:
+    def _on_entity_despawn(self, **kwargs: Any) -> None:
         """Handle despawned or destroyed entities."""
         entity_id = kwargs.get("entity_id")
         if entity_id is not None:
