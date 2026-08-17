@@ -108,6 +108,10 @@ class Vec3:
     y: float
     z: float
 
+    def distance(self, other: Vec3) -> float:
+        """Alias for distance_to."""
+        return self.distance_to(other)
+
     def distance_to(self, other: Vec3) -> float:
         """Euclidean distance to another vector."""
         return math.sqrt(self.distance_sq(other))
@@ -119,9 +123,36 @@ class Vec3:
         dz = self.z - other.z
         return dx * dx + dy * dy + dz * dz
 
-    def add(self, dx: float = 0.0, dy: float = 0.0, dz: float = 0.0) -> Vec3:
-        """Return vector translated by (dx, dy, dz)."""
+    def length(self) -> float:
+        """Euclidean length / magnitude of vector."""
+        return math.sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
+
+    def normalize(self) -> Vec3:
+        """Return unit vector pointing in same direction."""
+        mag = self.length()
+        if mag == 0:
+            return Vec3(0.0, 0.0, 0.0)
+        return Vec3(self.x / mag, self.y / mag, self.z / mag)
+
+    def add(
+        self,
+        other: Vec3 | None = None,
+        dx: float = 0.0,
+        dy: float = 0.0,
+        dz: float = 0.0,
+    ) -> Vec3:
+        """Return vector translated by either another Vec3 or delta coordinates."""
+        if other is not None:
+            return Vec3(self.x + other.x, self.y + other.y, self.z + other.z)
         return Vec3(self.x + dx, self.y + dy, self.z + dz)
+
+    def sub(self, other: Vec3) -> Vec3:
+        """Subtract another Vec3 from this vector."""
+        return Vec3(self.x - other.x, self.y - other.y, self.z - other.z)
+
+    def mul(self, factor: float) -> Vec3:
+        """Multiply vector components by scalar factor."""
+        return Vec3(self.x * factor, self.y * factor, self.z * factor)
 
     def to_block_pos(self) -> BlockPos:
         """Convert continuous coordinate to block integer coordinates via floor."""
