@@ -82,14 +82,15 @@ class AppConfig(BaseModel):
     logging: LoggingConfig
 
 
-def load_config(path: Path) -> AppConfig:
+def load_config(path: Path | str) -> AppConfig:
     """Load and validate a YAML config file, failing fast on any problem.
 
     Raises :class:`ConfigError` for a missing file, invalid YAML, or a schema
     violation. Never silently falls back to defaults.
     """
+    config_path = Path(path)
     try:
-        with path.open("r", encoding="utf-8") as file:
+        with config_path.open("r", encoding="utf-8") as file:
             raw = yaml.safe_load(file)
     except FileNotFoundError as exc:
         raise ConfigError(f"config file not found: {path}") from exc

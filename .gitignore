@@ -51,6 +51,10 @@ Thumbs.db
 # AI context working files (local only)
 context/
 
+# Node.js
+node_modules/
+package-lock.json
+
 # AI agent docs (local only, not pushed to GitHub)
 CHANGELOG.md
 CLAUDE.md
